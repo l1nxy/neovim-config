@@ -1,16 +1,3 @@
-"==========================================
-" ProjectLink: https://github.com/wklken/vim-for-server
-" Author:  wklken
-" Version: 0.2
-" Email: wklken@yeah.net
-" BlogPost: http://www.wklken.me
-" Donation: http://www.wklken.me/pages/donation.html
-" ReadMe: README.md
-" Last_modify: 2015-07-07
-" Desc: simple vim config for server, without any plugins.
-"==========================================
-
-
 " Plug start
 
 call plug#begin('~/.config/nvim/plugged')
@@ -29,21 +16,10 @@ Plug 'honza/vim-snippets'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'easymotion/vim-easymotion'
 Plug 'kien/rainbow_parentheses.vim'
-
-"Plug 'Shougo/deoplete-clangx'
-"if has('nvim')
-"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"else
-"  Plug 'Shougo/deoplete.nvim'
-"  Plug 'roxma/nvim-yarp'
-"  Plug 'roxma/vim-hug-neovim-rpc'
-"endif
-"let g:deoplete#enable_at_startup = 1
-
-
+Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-
+Plug 'Yggdroot/indentLine'
+Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 call plug#end()
 
 
@@ -87,7 +63,7 @@ set noerrorbells                " don't beep
 set visualbell t_vb=            " turn off error beep/flash
 set t_vb=
 set tm=500
-
+set t_ti= t_te=
 
 " show location
 set cursorcolumn
@@ -177,14 +153,16 @@ endif
 " ============================ theme and status line ============================
 
 " theme
-colorscheme one
+colorscheme gruvbox
 set background=dark " for the dark version
 " set background=light " for the light version
-let g:airline_theme='one'
 let g:airline_theme='simple'
 set termguicolors
 
-set guifont=JetBrains\ Mono:h16
+if !has("gui_vimr")
+  " Here goes some VimR specific settings like
+    set guifont=JetBrains\ Mono:h14
+endif
 " Set extra options when running in GUI mode
 "if has("gui_running")
     "set guifont=Monaco:h14
@@ -344,6 +322,11 @@ set shortmess+=c
 " diagnostics appear/become resolved.
 set signcolumn=yes
 
+
+
+vnoremap <leader>y "+y
+
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
@@ -473,7 +456,6 @@ let g:neoformat_cpp_clangformat= {
 let g:neoformat_enable_cpp = ['clang-format']
 
 
-:nmap <leader>n :CocCommand explorer<CR>
 
 "To map <Esc> to exit terminal-mode:
 :tnoremap <Esc> <C-\><C-n> 
@@ -534,3 +516,51 @@ let g:neoformat_enable_cpp = ['clang-format']
     au Syntax * RainbowParenthesesLoadSquare
     au Syntax * RainbowParenthesesLoadBraces
 " }}}
+"
+"
+"
+""缩进指示线"
+let g:indentLine_char_list = ['|', '¦', '┆', '┊']
+let g:indentLine_enabled = 1
+
+
+" nerdtree nerdtreetabs {{{
+    " map <leader>n :NERDTreeToggle<CR>
+    let NERDTreeHighlightCursorline=1
+    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    "close vim if the only window left open is a NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
+    " s/v 分屏打开文件
+    let g:NERDTreeMapOpenSplit = 's'
+    let g:NERDTreeMapOpenVSplit = 'v'
+    " fix Nerdtree ^G before folder and file names OSX terminal vim
+    let g:NERDTreeNodeDelimiter = "\u00a0"
+
+
+    " nerdtreetabs
+    map <Leader>n <plug>NERDTreeTabsToggle<CR>
+    " 关闭同步
+    " let g:nerdtree_tabs_synchronize_view=0
+    " let g:nerdtree_tabs_synchronize_focus=0
+    " 是否自动开启nerdtree
+    " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
+    let g:nerdtree_tabs_open_on_console_startup=0
+    let g:nerdtree_tabs_open_on_gui_startup=0
+" }}}
+"
+"
+" 相对行号: 行号变成相对，可以用 nj/nk 进行跳转
+set relativenumber number
+au FocusLost * :set norelativenumber number
+au FocusGained * :set relativenumber
+" 插入模式下用绝对行号, 普通模式下用相对
+autocmd InsertEnter * :set norelativenumber number
+autocmd InsertLeave * :set relativenumber
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber number
+  else
+    set relativenumber
+  endif
+endfunc
+nnoremap <C-n> :call NumberToggle()<cr>
