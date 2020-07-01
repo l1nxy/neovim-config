@@ -20,6 +20,8 @@ Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Yggdroot/indentLine'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
+Plug 'liuchengxu/vista.vim'
+Plug 'wakatime/vim-wakatime'
 call plug#end()
 
 
@@ -153,7 +155,7 @@ endif
 " ============================ theme and status line ============================
 
 " theme
-colorscheme gruvbox
+colorscheme one
 set background=dark " for the dark version
 " set background=light " for the light version
 let g:airline_theme='simple'
@@ -564,3 +566,13 @@ function! NumberToggle()
   endif
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
+
+
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+
+" Executive used when opening vista sidebar without specifying it.
+" " See all the avaliable executives via `:echo g:vista#executives`.
+ let g:vista_default_executive = 'coc'
+
+map <Leader>vo :Vista<CR>
+map <Leader>vc :Vista!<CR>
