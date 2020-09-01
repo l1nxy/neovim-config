@@ -10,7 +10,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdcommenter'
 Plug 'sbdchd/neoformat'
 Plug 'machakann/vim-highlightedyank'
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'octol/vim-cpp-enhanced-highlight'
@@ -20,7 +20,7 @@ Plug 'morhetz/gruvbox'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'Yggdroot/indentLine'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
-Plug 'liuchengxu/vista.vim'
+"Plug 'liuchengxu/vista.vim'
 Plug 'wakatime/vim-wakatime'
 call plug#end()
 
@@ -567,12 +567,22 @@ function! NumberToggle()
 endfunc
 nnoremap <C-n> :call NumberToggle()<cr>
 
+"==============================================================================
+" vim-go 插件
+"==============================================================================
+let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
 
-let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
 
-" Executive used when opening vista sidebar without specifying it.
-" " See all the avaliable executives via `:echo g:vista#executives`.
- let g:vista_default_executive = 'coc'
+let g:godef_split=2
 
-map <Leader>vo :Vista<CR>
-map <Leader>vc :Vista!<CR>
