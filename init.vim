@@ -22,6 +22,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'scrooloose/nerdtree' | Plug 'jistr/vim-nerdtree-tabs'
 "Plug 'liuchengxu/vista.vim'
 Plug 'wakatime/vim-wakatime'
+Plug 'cespare/vim-toml'
 call plug#end()
 
 
@@ -570,9 +571,10 @@ nnoremap <C-n> :call NumberToggle()<cr>
 "==============================================================================
 " vim-go 插件
 "==============================================================================
+""
 let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
 let g:go_autodetect_gopath = 1
-let g:go_list_type = "quickfix"
+"let g:go_list_type = "quickfix"
 
 let g:go_version_warning = 1
 let g:go_highlight_types = 1
